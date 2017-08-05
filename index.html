@@ -17,29 +17,80 @@
             <script>
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
-                var squareX = canvas.width/2;
-                var squareY = canvas.height/2;
-                var squareSide = 8;
-                var SnakeLen = 4;
+                var snakeX = canvas.width/2;
+                var snakeY = canvas.height/2;
+                var snakeSide = 8;
+                var snakeLen = 4;
+                var snakeSpd = 8;
 
-                function drawSquare() {
+
+                var dir = {
+                    up: false,
+                    right: false,
+                    down: false,
+                    left: false,
+
+                    setDir : function() {
+                        this.up = false;
+                        this.right = false;
+                        this.down = false;
+                        this.left = false;
+                    }
+                };
+
+                function drawSnake() {
                     ctx.beginPath();
-                    ctx.rect(squareX, squareY, squareSide, squareSide);
+                    ctx.rect(snakeX, snakeY, snakeSide, snakeSide);
                     ctx.fillStyle = "#000000";
                     ctx.fill();
                     ctx.closePath();
                 }
 
-                function moveSnake() {
-                    squareX += 8;
+                function collision() {
+
                 }
 
-                function draw() {
-                    drawSquare();
-                    moveSnake();
+                function main() {
+                    drawSnake();
+
+                    if (dir.up == true) {
+                        snakeY -= snakeSpd;
+                    }
+                    if (dir.right == true) {
+                        snakeX += snakeSpd;
+                    }
+                    if (dir.left == true) {
+                        snakeX -= snakeSpd;
+                    }
+                    if (dir.down == true) {
+                        snakeY += snakeSpd;
+                    }
+
+                    console.log("left: " + dir.left,"right: " + dir.right);
                 }
 
-                setInterval(draw, 100);
+                document.addEventListener("keydown", keyDownHandler, false);
+
+                function keyDownHandler(e) {
+                    if (e.keyCode == 38 && dir.down == false) {
+                        dir.setDir();
+                        dir.up = true;
+                    }
+                    if (e.keyCode == 39 && dir.left == false) {
+                        dir.setDir();
+                        dir.right = true;
+                    }
+                    if (e.keyCode == 40 && dir.up == false) {
+                        dir.setDir();
+                        dir.down = true;
+                    }
+                    if (e.keyCode == 37 && dir.right == false) {
+                        dir.setDir();
+                        dir.left = true;
+                    }
+                }
+
+                setInterval(main, 160);
             </script>
     </body>
 </html>
