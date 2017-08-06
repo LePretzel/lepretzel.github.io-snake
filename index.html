@@ -12,18 +12,15 @@
     </head>
 
     <body>
-            <canvas id="myCanvas" width="480" height="320"></canvas>
+            <canvas id="myCanvas" width="240" height="160"></canvas>
 
             <script>
-            //Todo implement collision
-            //Make it so you have to input a direction to start
-
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
                 var snakeX = canvas.width/2;
                 var snakeY = canvas.height/2;
                 var snakeSide = 8;
-                var snakeLen = 10;
+                var snakeLen = 7;
                 var snakeSpd = 8;
                 var snakeXY = [];
                 var snakePos = [];
@@ -31,7 +28,7 @@
 
                 var dir = {
                     up: false,
-                    right: false,
+                    right: true,
                     down: false,
                     left: false,
 
@@ -58,10 +55,23 @@
                 }
 
                 function collision() {
+                    if (snakeX > canvas.width - 8|| snakeX < 0) {
+                        alert("Game Over");
+                    }
+                    if (snakeY > canvas.height - 8 || snakeY < 0) {
+                        alert("Game Over");
+                    }
+                    for (var i = 1; i < snakePos.length; i++) {
+                        if (snakeX == snakePos[i][0] && snakeY == snakePos[i][1]) {
+                            console.log([snakeX, snakeY], snakePos[i]);
+                            alert("Game Over");
+                        }
+                    }
                 }
 
                 function main() {
                     drawSnake();
+                    collision();
 
                     if (dir.up == true) {
                         snakeY -= snakeSpd;
@@ -75,8 +85,6 @@
                     if (dir.down == true) {
                         snakeY += snakeSpd;
                     }
-
-                    console.log(snakePos[0]);
                 }
 
                 document.addEventListener("keydown", keyDownHandler, false);
