@@ -15,13 +15,18 @@
             <canvas id="myCanvas" width="480" height="320"></canvas>
 
             <script>
+            //Todo implement collision
+            //Make it so you have to input a direction to start
+
                 var canvas = document.getElementById("myCanvas");
                 var ctx = canvas.getContext("2d");
                 var snakeX = canvas.width/2;
                 var snakeY = canvas.height/2;
                 var snakeSide = 8;
-                var snakeLen = 4;
+                var snakeLen = 10;
                 var snakeSpd = 8;
+                var snakeXY = [];
+                var snakePos = [];
 
 
                 var dir = {
@@ -43,11 +48,16 @@
                     ctx.rect(snakeX, snakeY, snakeSide, snakeSide);
                     ctx.fillStyle = "#000000";
                     ctx.fill();
+                    snakeXY = [snakeX, snakeY];
+                    snakePos.unshift(snakeXY);
+                    if (snakePos.length > snakeLen) {
+                        let tailEnd = snakePos.pop()
+                        ctx.clearRect(tailEnd[0], tailEnd[1], snakeSide, snakeSide);
+                    }
                     ctx.closePath();
                 }
 
                 function collision() {
-
                 }
 
                 function main() {
@@ -66,7 +76,7 @@
                         snakeY += snakeSpd;
                     }
 
-                    console.log("left: " + dir.left,"right: " + dir.right);
+                    console.log(snakePos[0]);
                 }
 
                 document.addEventListener("keydown", keyDownHandler, false);
