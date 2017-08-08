@@ -1,5 +1,7 @@
 hitting a side direction and then quickly hitting the opposite
- direction you were going in allows you to do a 180 turn-around.
+ direction you were going in allows you to do a 180 turn-around resulting in
+an immediate game over.
 
-the head of the snake is invisible. This will probably be fixed when I make 
-the game pause before start.
+if the head of the snake enters the the space where the end of the snake was
+right as it dissapears, that space will remain cleared, leaving a white space 
+in the snakes body.

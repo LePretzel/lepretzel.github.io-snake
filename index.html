@@ -24,6 +24,7 @@
                 var snakeSpd = 8;
                 var snakeXY = [];
                 var snakePos = [];
+                var score = 0;
 
 
                 var dir = {
@@ -54,18 +55,51 @@
                     ctx.closePath();
                 }
 
+                function randBy8(n) {
+                    return Math.floor(Math.random() * n) * 8;
+                }
+
+                function drawFood() {
+                    foodX = randBy8(30);
+                    foodY = randBy8(20);
+                    for (var i = 0; i < snakePos.length; i++) { // this makes sure food doesn't spawn inside the snake
+                        while (foodX == snakePos[i][0] && foodY == snakePos[i][1]) {
+                            foodX = randBy8(30);
+                            foodY = randBy8(20);
+                        }
+                    }
+                    ctx.beginPath();
+                    ctx.rect(foodX, foodY, 8, 8);
+                    ctx.fillStyle = "#0000ff";
+                    ctx.fill();
+                    ctx.closePath();
+                }
+
+                function gameOver() {
+                    alert("      GameOver" + "\n" + "Press OK To Restart");
+                    window.location.reload();
+                }
+
                 function collision() {
-                    if (snakeX > canvas.width - 8|| snakeX < 0) {
-                        alert("Game Over");
+                    // boundary collision
+                    if (snakeX > canvas.width - 8 || snakeX < 0) {
+                        gameOver();
                     }
                     if (snakeY > canvas.height - 8 || snakeY < 0) {
-                        alert("Game Over");
+                        gameOver();
                     }
+                    // self collision
                     for (var i = 1; i < snakePos.length; i++) {
                         if (snakeX == snakePos[i][0] && snakeY == snakePos[i][1]) {
-                            console.log([snakeX, snakeY], snakePos[i]);
-                            alert("Game Over");
+                            gameOver();
                         }
+                    }
+                    // food collision
+                    if (snakeX == foodX && snakeY == foodY) {
+                        snakeLen += 1;
+                        score += 1;
+                        console.log("score: " + score);
+                        drawFood();
                     }
                 }
 
@@ -107,8 +141,10 @@
                         dir.left = true;
                     }
                 }
-
+                
+                
                 setInterval(main, 160);
+                drawFood();
             </script>
     </body>
 </html>
