@@ -8,6 +8,8 @@
         <style>
             * { padding: 0; margin: 0; }
             canvas {background: #eee; display: block; margin: 0 auto;}
+            div {display: block;}
+            p {text-align: center;}
         </style>
     </head>
 
@@ -96,9 +98,8 @@
                     }
                     // food collision
                     if (snakeX == foodX && snakeY == foodY) {
-                        snakeLen += 1;
-                        score += 1;
-                        console.log("score: " + score);
+                        snakeLen++;
+                        score++;
                         drawFood();
                     }
                 }
@@ -106,6 +107,8 @@
                 function main() {
                     drawSnake();
                     collision();
+
+                    document.getElementById("scoretxt").innerHTML = score;
 
                     if (dir.up == true) {
                         snakeY -= snakeSpd;
@@ -146,5 +149,8 @@
                 setInterval(main, 160);
                 drawFood();
             </script>
+            <div>
+                <p id="scoretxt"></p>
+            </div>
     </body>
 </html>
